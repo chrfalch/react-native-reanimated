@@ -93,7 +93,9 @@ export default class AnimatedNode {
 
   __nativeInitialize() {
     if (!this.__initialized) {
-      ReanimatedModule.createNode(this.__nodeID, { ...this.__nodeConfig });
+      if (global.Reanimated)
+        global.Reanimated.createNode(this.__nodeID, { ...this.__nodeConfig });
+      else ReanimatedModule.createNode(this.__nodeID, { ...this.__nodeConfig });
       this.__initialized = true;
     }
   }
@@ -128,7 +130,9 @@ export default class AnimatedNode {
     this.__children.push(child);
     child.__nativeInitialize();
 
-    ReanimatedModule.connectNodes(this.__nodeID, child.__nodeID);
+    if (global.Reanimated)
+      global.Reanimated.connectNodes(this.__nodeID, child.__nodeID);
+    else ReanimatedModule.connectNodes(this.__nodeID, child.__nodeID);
   }
 
   __removeChild(child) {

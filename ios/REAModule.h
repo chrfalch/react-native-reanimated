@@ -8,5 +8,6 @@
 #import "REAValueNode.h"
 
 @interface REAModule : RCTEventEmitter <RCTBridgeModule, RCTEventDispatcherObserver, RCTUIManagerObserver>
-
+-(void) createNode:(nonnull NSNumber *)nodeID config:(NSDictionary<NSString *, id> *_Nullable)config;
+-(void) connectNodes:(nonnull NSNumber *)parentID childTag:(nonnull NSNumber *)childID;
 @end

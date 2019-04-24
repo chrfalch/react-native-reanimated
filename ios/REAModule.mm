@@ -1,6 +1,7 @@
 #import "REAModule.h"
 
 #import "REANodesManager.h"
+#import "REAJsiModule.h"
 #import "Transitioning/REATransitionManager.h"
 
 typedef void (^AnimatedOperation)(REANodesManager *nodesManager);
@@ -42,6 +43,8 @@ RCT_EXPORT_MODULE(ReanimatedModule);
 
   [bridge.eventDispatcher addDispatchObserver:self];
   [bridge.uiManager.observerCoordinator addObserver:self];
+    
+  REAJsiModule::install(self);
 }
 
 #pragma mark -- Transitioning API

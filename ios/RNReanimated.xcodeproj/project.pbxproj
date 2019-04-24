@@ -21,7 +21,7 @@
 		440FEC37209062F100EEC73A /* REASetNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 440FEC23209062F100EEC73A /* REASetNode.m */; };
 		440FEC38209062F100EEC73A /* REAOperatorNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 440FEC24209062F100EEC73A /* REAOperatorNode.m */; };
 		440FEC39209062F100EEC73A /* REABlockNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 440FEC25209062F100EEC73A /* REABlockNode.m */; };
-		440FEC3A209062F100EEC73A /* REAModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 440FEC2A209062F100EEC73A /* REAModule.m */; };
+		440FEC3A209062F100EEC73A /* REAModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = 440FEC2A209062F100EEC73A /* REAModule.mm */; };
 		440FEC3B209062F100EEC73A /* REANodesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 440FEC2B209062F100EEC73A /* REANodesManager.m */; };
 		44125DC022538E6D003C1762 /* REATransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44125DBF22538E6D003C1762 /* REATransitionManager.m */; };
 		44125DC322538F68003C1762 /* REATransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 44125DC222538F68003C1762 /* REATransition.m */; };
@@ -31,6 +31,7 @@
 		44125DD12253A3C0003C1762 /* RCTConvert+REATransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 44125DD02253A3C0003C1762 /* RCTConvert+REATransition.m */; };
 		660A44292119B821006BFD5E /* REAConcatNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A44282119B820006BFD5E /* REAConcatNode.m */; };
 		66240C6920C68DEA00648F55 /* REAAlwaysNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66240C6820C68DEA00648F55 /* REAAlwaysNode.m */; };
+		A176D3002270EE96005FDA7B /* REAJsiModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A176D2FE2270EE96005FDA7B /* REAJsiModule.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,8 +78,8 @@
 		440FEC26209062F100EEC73A /* READebugNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = READebugNode.h; sourceTree = "<group>"; };
 		440FEC27209062F100EEC73A /* REACondNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REACondNode.h; sourceTree = "<group>"; };
 		440FEC28209062F100EEC73A /* REAValueNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REAValueNode.h; sourceTree = "<group>"; };
-		440FEC2A209062F100EEC73A /* REAModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REAModule.m; sourceTree = "<group>"; };
-		440FEC2B209062F100EEC73A /* REANodesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REANodesManager.m; sourceTree = "<group>"; };
+		440FEC2A209062F100EEC73A /* REAModule.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = REAModule.mm; sourceTree = "<group>"; };
+		440FEC2B209062F100EEC73A /* REANodesManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = REANodesManager.m; sourceTree = "<group>"; };
 		44125DBE22538E6D003C1762 /* REATransitionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REATransitionManager.h; sourceTree = "<group>"; };
 		44125DBF22538E6D003C1762 /* REATransitionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REATransitionManager.m; sourceTree = "<group>"; };
 		44125DC122538F68003C1762 /* REATransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REATransition.h; sourceTree = "<group>"; };
@@ -95,6 +96,8 @@
 		660A442A2119B83E006BFD5E /* REAConcatNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REAConcatNode.h; sourceTree = "<group>"; };
 		66240C6720C68DEA00648F55 /* REAAlwaysNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REAAlwaysNode.h; sourceTree = "<group>"; };
 		66240C6820C68DEA00648F55 /* REAAlwaysNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REAAlwaysNode.m; sourceTree = "<group>"; };
+		A176D2FE2270EE96005FDA7B /* REAJsiModule.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = REAJsiModule.mm; sourceTree = SOURCE_ROOT; };
+		A176D2FF2270EE96005FDA7B /* REAJsiModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REAJsiModule.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +183,9 @@
 				44125C76224FBE0B003C1762 /* Transitioning */,
 				440FEC0C209062F100EEC73A /* Nodes */,
 				440FEC0A209062F100EEC73A /* REAModule.h */,
-				440FEC2A209062F100EEC73A /* REAModule.m */,
+				440FEC2A209062F100EEC73A /* REAModule.mm */,
+				A176D2FF2270EE96005FDA7B /* REAJsiModule.h */,
+				A176D2FE2270EE96005FDA7B /* REAJsiModule.mm */,
 				440FEC01209062F100EEC73A /* REANodesManager.h */,
 				440FEC2B209062F100EEC73A /* REANodesManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
@@ -226,6 +231,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -245,12 +251,13 @@
 			files = (
 				440FEC2E209062F100EEC73A /* READebugNode.m in Sources */,
 				440FEC37209062F100EEC73A /* REASetNode.m in Sources */,
-				440FEC3A209062F100EEC73A /* REAModule.m in Sources */,
+				440FEC3A209062F100EEC73A /* REAModule.mm in Sources */,
 				44125DCE2253A038003C1762 /* REATransitionValues.m in Sources */,
 				44125DC82253906B003C1762 /* REAAllTransitions.m in Sources */,
 				44125DC022538E6D003C1762 /* REATransitionManager.m in Sources */,
 				440FEC39209062F100EEC73A /* REABlockNode.m in Sources */,
 				440FEC33209062F100EEC73A /* REABezierNode.m in Sources */,
+				A176D3002270EE96005FDA7B /* REAJsiModule.mm in Sources */,
 				44125DC322538F68003C1762 /* REATransition.m in Sources */,
 				440FEC2D209062F100EEC73A /* REAStyleNode.m in Sources */,
 				440FEC31209062F100EEC73A /* REACondNode.m in Sources */,
@@ -369,14 +376,26 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/third-party/folly-2018.10.22.00",
+					"$(SRCROOT)/../node_modules/react-native/third-party/boost_1_63_0",
+					"$(SRCROOT)/../node_modules/react-native/third-party/glog-0.3.5/src",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_CFLAGS = (
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_NAME = RNReanimated;
 				SKIP_INSTALL = YES;
 			};
@@ -385,14 +404,26 @@
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/third-party/folly-2018.10.22.00",
+					"$(SRCROOT)/../node_modules/react-native/third-party/boost_1_63_0",
+					"$(SRCROOT)/../node_modules/react-native/third-party/glog-0.3.5/src",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_CFLAGS = (
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_NAME = RNReanimated;
 				SKIP_INSTALL = YES;
 			};
