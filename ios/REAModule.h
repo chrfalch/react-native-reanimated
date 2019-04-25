@@ -10,4 +10,8 @@
 @interface REAModule : RCTEventEmitter <RCTBridgeModule, RCTEventDispatcherObserver, RCTUIManagerObserver>
 -(void) createNode:(nonnull NSNumber *)nodeID config:(NSDictionary<NSString *, id> *_Nullable)config;
 -(void) connectNodes:(nonnull NSNumber *)parentID childTag:(nonnull NSNumber *)childID;
+-(void) disconnectNodes:(nonnull NSNumber *)parentID childTag:(nonnull NSNumber *)childID;
+-(void) dropNode:(nonnull NSNumber *)nodeId;
+-(void) connectNodeToView:(nonnull NSNumber *)nodeID viewTag:(nonnull NSNumber *)viewTag;
+-(void) disconnectNodeFromView:(nonnull NSNumber *)nodeID viewTag:(nonnull NSNumber *)viewTag;
 @end

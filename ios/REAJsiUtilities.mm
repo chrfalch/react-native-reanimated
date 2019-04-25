@@ -19,8 +19,10 @@ NSDictionary *convertJSIObjectToNSDictionary(jsi::Runtime &runtime, const jsi::O
     for (size_t i = 0; i < size; i++) {
         jsi::String name = propertyNames.getValueAtIndex(runtime, i).getString(runtime);
         NSString *k = convertJSIStringToNSString(runtime, name);
-        id v = convertJSIValueToObjCObject(runtime, value.getProperty(runtime, name)) ?: (id)kCFNull;
-        result[k] = v;
+        id v = convertJSIValueToObjCObject(runtime, value.getProperty(runtime, name));
+        if(v) {
+            result[k] = v;
+        }
     }
     return [result copy];
 }
@@ -42,7 +44,7 @@ id convertJSIValueToObjCObject(jsi::Runtime &runtime, const jsi::Value &value) {
         return @(value.getBool());
     }
     if (value.isNumber()) {
-        return @(value.getNumber());
+        return [NSNumber numberWithDouble:value.getNumber()];
     }
     if (value.isString()) {
         return convertJSIStringToNSString(runtime, value.getString(runtime));

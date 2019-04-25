@@ -34,10 +34,11 @@ jsi::Value REAJsiModule::get(jsi::Runtime &runtime, const jsi::PropNameID &name)
     if (methodName == "createNode") {
         REAModule* reamodule = reamodule_;
         return jsi::Function::createFromHostFunction(runtime, name, 2, [reamodule](
-                                                                            jsi::Runtime &runtime,
-                                                                               const jsi::Value &thisValue,
-                                                                               const jsi::Value *arguments,
-                                                                               size_t count) -> jsi::Value {
+               jsi::Runtime &runtime,
+               const jsi::Value &thisValue,
+               const jsi::Value *arguments,
+               size_t count) -> jsi::Value {
+            
             auto arg1 = &arguments[0];
             auto arg2 = &arguments[1];
             auto config = convertJSIObjectToNSDictionary(runtime, arg2->asObject(runtime));
@@ -45,16 +46,75 @@ jsi::Value REAJsiModule::get(jsi::Runtime &runtime, const jsi::PropNameID &name)
             return jsi::Value::undefined();
         });
     }
+    if (methodName == "dropNode") {
+        REAModule* reamodule = reamodule_;
+        return jsi::Function::createFromHostFunction(runtime, name, 1, [reamodule](
+                                                                                   jsi::Runtime &runtime,
+                                                                                   const jsi::Value &thisValue,
+                                                                                   const jsi::Value *arguments,
+                                                                                   size_t count) -> jsi::Value {
+            
+            auto arg1 = &arguments[0];
+            [reamodule dropNode:[NSNumber numberWithDouble:arg1->asNumber()]];
+            return jsi::Value::undefined();
+        });
+    }
     if (methodName == "connectNodes") {
+        REAModule* reamodule = reamodule_;
+        return jsi::Function::createFromHostFunction(runtime, name, 2, [reamodule](
+               jsi::Runtime &runtime,
+               const jsi::Value &thisValue,
+               const jsi::Value *arguments,
+               size_t count) -> jsi::Value {
+            
+            auto arg1 = &arguments[0];
+            auto arg2 = &arguments[1];
+            [reamodule connectNodes:[NSNumber numberWithDouble:arg1->asNumber()] childTag:[NSNumber numberWithDouble:arg2->asNumber()]];
+            
+            return jsi::Value::undefined();
+        });
+    }
+    if (methodName == "disconnectNodes") {
         REAModule* reamodule = reamodule_;
         return jsi::Function::createFromHostFunction(runtime, name, 2, [reamodule](
                                                                                    jsi::Runtime &runtime,
                                                                                    const jsi::Value &thisValue,
                                                                                    const jsi::Value *arguments,
                                                                                    size_t count) -> jsi::Value {
+            
             auto arg1 = &arguments[0];
             auto arg2 = &arguments[1];
-            [reamodule connectNodes:[NSNumber numberWithDouble:(int)arg1->asNumber()] childTag:[NSNumber numberWithDouble:(int)arg2->asNumber()]];
+            [reamodule disconnectNodes:[NSNumber numberWithDouble:arg1->asNumber()] childTag:[NSNumber numberWithDouble:arg2->asNumber()]];
+            
+            return jsi::Value::undefined();
+        });
+    }
+    if (methodName == "connectNodeToView") {
+        REAModule* reamodule = reamodule_;
+        return jsi::Function::createFromHostFunction(runtime, name, 2, [reamodule](
+                                                                                   jsi::Runtime &runtime,
+                                                                                   const jsi::Value &thisValue,
+                                                                                   const jsi::Value *arguments,
+                                                                                   size_t count) -> jsi::Value {
+            
+            auto arg1 = &arguments[0];
+            auto arg2 = &arguments[1];
+            [reamodule connectNodeToView:[NSNumber numberWithDouble:arg1->asNumber()] viewTag:[NSNumber numberWithDouble:arg2->asNumber()]];
+            
+            return jsi::Value::undefined();
+        });
+    }
+    if (methodName == "disconnectNodeFromView") {
+        REAModule* reamodule = reamodule_;
+        return jsi::Function::createFromHostFunction(runtime, name, 2, [reamodule](
+                                                                                   jsi::Runtime &runtime,
+                                                                                   const jsi::Value &thisValue,
+                                                                                   const jsi::Value *arguments,
+                                                                                   size_t count) -> jsi::Value {
+            
+            auto arg1 = &arguments[0];
+            auto arg2 = &arguments[1];
+            [reamodule disconnectNodeFromView:[NSNumber numberWithDouble:arg1->asNumber()] viewTag:[NSNumber numberWithDouble:arg2->asNumber()]];
             
             return jsi::Value::undefined();
         });

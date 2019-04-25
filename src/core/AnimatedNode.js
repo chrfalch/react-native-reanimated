@@ -102,7 +102,8 @@ export default class AnimatedNode {
 
   __nativeTearDown() {
     if (this.__initialized) {
-      ReanimatedModule.dropNode(this.__nodeID);
+      if (global.Reanimated) global.Reanimated.dropNode(this.__nodeID);
+      else ReanimatedModule.dropNode(this.__nodeID);
       this.__initialized = false;
     }
   }
@@ -141,7 +142,10 @@ export default class AnimatedNode {
       console.warn("Trying to remove a child that doesn't exist");
       return;
     }
-    ReanimatedModule.disconnectNodes(this.__nodeID, child.__nodeID);
+
+    if (global.Reanimated)
+      global.Reanimated.disconnectNodes(this.__nodeID, child.__nodeID);
+    else ReanimatedModule.disconnectNodes(this.__nodeID, child.__nodeID);
 
     this.__children.splice(index, 1);
     if (this.__children.length === 0) {
