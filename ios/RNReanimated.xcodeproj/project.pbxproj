@@ -32,6 +32,7 @@
 		660A44292119B821006BFD5E /* REAConcatNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A44282119B820006BFD5E /* REAConcatNode.m */; };
 		66240C6920C68DEA00648F55 /* REAAlwaysNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66240C6820C68DEA00648F55 /* REAAlwaysNode.m */; };
 		A176D3002270EE96005FDA7B /* REAJsiModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = A176D2FE2270EE96005FDA7B /* REAJsiModule.mm */; };
+		A17FAE642271869B00ADF5C5 /* REAJsiUtilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = A17FAE622271869B00ADF5C5 /* REAJsiUtilities.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,6 +99,8 @@
 		66240C6820C68DEA00648F55 /* REAAlwaysNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REAAlwaysNode.m; sourceTree = "<group>"; };
 		A176D2FE2270EE96005FDA7B /* REAJsiModule.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = REAJsiModule.mm; sourceTree = SOURCE_ROOT; };
 		A176D2FF2270EE96005FDA7B /* REAJsiModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REAJsiModule.h; sourceTree = SOURCE_ROOT; };
+		A17FAE622271869B00ADF5C5 /* REAJsiUtilities.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = REAJsiUtilities.mm; sourceTree = "<group>"; };
+		A17FAE632271869B00ADF5C5 /* REAJsiUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REAJsiUtilities.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +189,8 @@
 				440FEC2A209062F100EEC73A /* REAModule.mm */,
 				A176D2FF2270EE96005FDA7B /* REAJsiModule.h */,
 				A176D2FE2270EE96005FDA7B /* REAJsiModule.mm */,
+				A17FAE632271869B00ADF5C5 /* REAJsiUtilities.h */,
+				A17FAE622271869B00ADF5C5 /* REAJsiUtilities.mm */,
 				440FEC01209062F100EEC73A /* REANodesManager.h */,
 				440FEC2B209062F100EEC73A /* REANodesManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
@@ -263,6 +268,7 @@
 				440FEC31209062F100EEC73A /* REACondNode.m in Sources */,
 				44125DD12253A3C0003C1762 /* RCTConvert+REATransition.m in Sources */,
 				440FEC2C209062F100EEC73A /* REAPropsNode.m in Sources */,
+				A17FAE642271869B00ADF5C5 /* REAJsiUtilities.mm in Sources */,
 				440FEC3B209062F100EEC73A /* REANodesManager.m in Sources */,
 				440FEC36209062F100EEC73A /* REAEventNode.m in Sources */,
 				44125DCB22539177003C1762 /* REATransitionAnimation.m in Sources */,
