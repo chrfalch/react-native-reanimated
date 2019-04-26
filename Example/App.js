@@ -20,6 +20,7 @@ import TransitionsSequence from './transitions/sequence';
 import TransitionsShuffle from './transitions/shuffle';
 import TransitionsProgress from './transitions/progress';
 import TransitionsTicket from './transitions/ticket';
+import MultipleSprings from './multipleSprings';
 
 import InteractablePlayground, {
   SCREENS as INTERACTABLE_SCREENS,
@@ -55,6 +56,10 @@ const SCREENS = {
   progressBar: {
     screen: ProgressBar,
     title: 'Progress bar',
+  },
+  multipleStrings: {
+    screen: MultipleSprings,
+    title: 'Multiple springs',
   },
   transitionsSequence: {
     screen: TransitionsSequence,
