@@ -154,10 +154,14 @@ export default class AnimatedNode {
   }
 
   _connectAnimatedView(nativeViewTag) {
-    ReanimatedModule.connectNodeToView(this.__nodeID, nativeViewTag);
+    if (global.Reanimated)
+      global.Reanimated.connectNodeToView(this.__nodeID, nativeViewTag);
+    else ReanimatedModule.connectNodeToView(this.__nodeID, nativeViewTag);
   }
 
   _disconnectAnimatedView(nativeViewTag) {
-    ReanimatedModule.disconnectNodeFromView(this.__nodeID, nativeViewTag);
+    if (global.Reanimated)
+      global.Reanimated.disconnectNodeFromView(this.__nodeID, nativeViewTag);
+    else ReanimatedModule.disconnectNodeFromView(this.__nodeID, nativeViewTag);
   }
 }
