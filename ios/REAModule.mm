@@ -97,10 +97,12 @@ RCT_EXPORT_METHOD(disconnectNodes:(nonnull NSNumber *)parentID
 RCT_EXPORT_METHOD(connectNodeToView:(nonnull NSNumber *)nodeID
                   viewTag:(nonnull NSNumber *)viewTag)
 {
-  NSString *viewName = [self.bridge.uiManager viewNameForReactTag:viewTag];
-  [self addOperationBlock:^(REANodesManager *nodesManager) {
-    [nodesManager connectNodeToView:nodeID viewTag:viewTag viewName:viewName];
-  }];
+  RCTExecuteOnUIManagerQueue(^{
+    NSString *viewName = [self.bridge.uiManager viewNameForReactTag:viewTag];
+    [self addOperationBlock:^(REANodesManager *nodesManager) {
+      [nodesManager connectNodeToView:nodeID viewTag:viewTag viewName:viewName];
+    }];
+  });
 }
 
 RCT_EXPORT_METHOD(disconnectNodeFromView:(nonnull NSNumber *)nodeID
@@ -142,7 +144,9 @@ RCT_EXPORT_METHOD(configureProps:(nonnull NSArray<NSString *> *)nativeProps
 
 - (void)addOperationBlock:(AnimatedOperation)operation
 {
-  [_operations addObject:operation];
+  RCTExecuteOnUIManagerQueue(^{
+    [_operations addObject:operation];
+  });
 }
 
 #pragma mark - RCTUIManagerObserver
@@ -160,7 +164,9 @@ RCT_EXPORT_METHOD(configureProps:(nonnull NSArray<NSString *> *)nativeProps
 
   [uiManager addUIBlock:^(__unused RCTUIManager *manager, __unused NSDictionary<NSNumber *, UIView *> *viewRegistry) {
     for (AnimatedOperation operation in operations) {
-      operation(nodesManager);
+      if(operation){
+        operation(nodesManager);
+      }
     }
     [nodesManager operationsBatchDidComplete];
   }];
