@@ -14,4 +14,6 @@
 -(void) dropNode:(nonnull NSNumber *)nodeId;
 -(void) connectNodeToView:(nonnull NSNumber *)nodeID viewTag:(nonnull NSNumber *)viewTag;
 -(void) disconnectNodeFromView:(nonnull NSNumber *)nodeID viewTag:(nonnull NSNumber *)viewTag;
+-(void) getValue:(nonnull NSNumber *)nodeID
+        callback:(RCTResponseSenderBlock)callback;
 @end

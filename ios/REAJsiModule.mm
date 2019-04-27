@@ -12,6 +12,13 @@
 #import "REAModule.h"
 #import "REAJsiUtilities.h"
 
+struct EventHandlerWrapper {
+    EventHandlerWrapper(jsi::Function eventHandler)
+    : callback(std::move(eventHandler)) {}
+    
+    jsi::Function callback;
+};
+
 REAJsiModule::REAJsiModule(REAModule* reaModule)
 : reamodule_(reaModule) {}
 
@@ -116,6 +123,37 @@ jsi::Value REAJsiModule::get(jsi::Runtime &runtime, const jsi::PropNameID &name)
             auto arg2 = &arguments[1];
             [reamodule disconnectNodeFromView:[NSNumber numberWithDouble:arg1->asNumber()] viewTag:[NSNumber numberWithDouble:arg2->asNumber()]];
             
+            return jsi::Value::undefined();
+        });
+    }
+    if (methodName == "getValue") {
+        REAModule* reamodule = reamodule_;
+        return jsi::Function::createFromHostFunction(runtime, name, 2, [reamodule](
+                                                                                   jsi::Runtime &runtime,
+                                                                                   const jsi::Value &thisValue,
+                                                                                   const jsi::Value *arguments,
+                                                                                   size_t count) -> jsi::Value {
+            
+            auto arg1 = &arguments[0];
+            auto arg2 =  &arguments[1];
+            jsi::Function cb = arg2->getObject(runtime).asFunction(runtime);
+            auto eventhandler = std::make_shared<EventHandlerWrapper>(std::move(cb));
+            
+            [reamodule getValue:[NSNumber numberWithDouble:arg1->asNumber()] callback:^(NSArray *response) {
+            
+                auto &eventHandlerWrapper = static_cast<const EventHandlerWrapper &>(*eventhandler);
+                
+                id value = response[0];
+                if ([value isKindOfClass:[NSString class]]) {
+                    eventHandlerWrapper.callback.call(runtime, jsi::String::createFromUtf8(runtime, [value UTF8String] ?: ""));
+                } else if([value isKindOfClass:[NSNumber class]]) {
+                    eventHandlerWrapper.callback.call(runtime, jsi::Value([value doubleValue]));
+                } else if([value isEqual:[NSNull null]]) {
+                    eventHandlerWrapper.callback.call(runtime, jsi::Value::undefined());
+                } else {
+                    NSLog(@"ERROR! %@", value);
+                }
+            }];
             return jsi::Value::undefined();
         });
     }
