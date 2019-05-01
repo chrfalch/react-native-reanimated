@@ -7,83 +7,9 @@ const size = Dimensions.get('window');
 const cols = 5;
 const rows = size.height / (size.width / cols);
 
-const {
-  set,
-  cond,
-  startClock,
-  stopClock,
-  clockRunning,
-  block,
-  debug,
-  spring,
-  timing,
-  Value,
-  Clock,
-  interpolate,
-} = Animated;
+const AnimationContext = React.createContext();
 
-function runTiming(value, dest) {
-  const clock = new Clock();
-  const state = {
-    finished: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-    frameTime: new Value(0),
-  };
-
-  const config = {
-    duration: 330,
-    toValue: new Value(0),
-    easing: Easing.inOut(Easing.ease),
-  };
-
-  return block([
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.time, 0),
-      set(state.position, value),
-      set(state.frameTime, 0),
-      set(config.toValue, dest),
-      startClock(clock),
-    ]),
-    timing(clock, state, config),
-    cond(state.finished, stopClock(clock)),
-    state.position,
-  ]);
-}
-
-function runSpring(value, dest, config) {
-  const clock = new Clock();
-  const state = {
-    finished: new Value(0),
-    velocity: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-  };
-
-  const defaultConfig = {
-    toValue: new Value(0),
-
-    overshootClamping: false,
-    restSpeedThreshold: 0.001,
-    restDisplacementThreshold: 0.001,
-    ...config,
-  };
-
-  return block([
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.time, 0),
-      set(state.position, value),
-      set(state.velocity, 0),
-      set(defaultConfig.toValue, dest),
-      startClock(clock),
-    ]),
-    spring(clock, state, defaultConfig),
-    cond(state.finished, debug('stop clock', stopClock(clock))),
-    state.position,
-  ]);
-}
+const { interpolate } = Animated;
 
 class Item extends React.PureComponent {
   constructor(props) {
@@ -95,16 +21,18 @@ class Item extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentValue } = this.state;
+    const { currentValue, animationValue } = this.state;
     if (nextProps.toggled !== currentValue) {
       const { toggled } = nextProps;
       const startValue = toggled ? 1 : 0;
-      const nextValue = toggled ? 0 : 1;
-      const nextAnimationValue = runTiming(startValue, nextValue, {
-        damping: 14,
-        mass: 1,
-        stiffness: 120,
+      const endValue = toggled ? 0 : 1;
+
+      const nextAnimationValue = new Animated.Value(startValue);
+      this.context.onAnimation({
+        animationValue: nextAnimationValue,
+        toValue: endValue,
       });
+
       this.setState({
         currentValue: toggled,
         animationValue: nextAnimationValue,
@@ -144,23 +72,45 @@ class Item extends React.PureComponent {
   }
 }
 
+Item.contextType = AnimationContext;
+
 export default (Example = () => {
   const [toggled, setToggled] = useState(1);
-
+  const animations = useRef([]);
   const arr = Array.apply(null, { length: rows * cols }).map(
     Function.call,
     Number
   );
 
+  const onAnimation = value => {
+    animations.current.push(value);
+  };
+
+  useEffect(() => {
+    if (animations.current.length > 0) {
+      animations.current.forEach(a => {
+        Animated.spring(a.animationValue, {
+          toValue: a.toValue,
+          damping: 14,
+          mass: 1,
+          stiffness: 120,
+        }).start();
+      });
+      animations.current = [];
+    }
+  });
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      style={styles.container}
-      onPress={() => setToggled(toggled === 1 ? 0 : 1)}>
-      {arr.map((m, i) => (
-        <Item toggled={toggled} index={i} key={i.toString()} />
-      ))}
-    </TouchableOpacity>
+    <AnimationContext.Provider value={{ onAnimation }}>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        style={styles.container}
+        onPress={() => setToggled(toggled === 1 ? 0 : 1)}>
+        {arr.map((m, i) => (
+          <Item toggled={toggled} index={i} key={i.toString()} />
+        ))}
+      </TouchableOpacity>
+    </AnimationContext.Provider>
   );
 });
 
