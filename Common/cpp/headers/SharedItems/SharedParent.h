@@ -8,6 +8,8 @@ enum class ValueType {
   BoolType,
   NumberType,
   StringType,
+  DirectHostObjectType, /* Shared host object stored as underlying cpp object */
+  DirectHostFunctionType, /* Shared host function stored as underlying cpp */
   RemoteObjectType, /* object that can be instantiated on host side and modified on the remote (worklet) side */
   MutableValueType, /* object with 'value' property that can be updated and read from any thread */
   HostFunctionType, /* function that will be executed asynchronously on the host runtime */

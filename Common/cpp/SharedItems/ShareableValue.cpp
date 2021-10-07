@@ -106,6 +106,12 @@ void ShareableValue::adapt(jsi::Runtime &rt, const jsi::Value &value, ValueType 
             jsi::Object handlerAsObject = primalFunction.asObject(rt);
             std::shared_ptr<HostFunctionHandler> handler = handlerAsObject.getHostObject<HostFunctionHandler>(rt);
             valueContainer = std::make_unique<HostFunctionWrapper>(handler);
+        } else if (object.asFunction(rt).isHostFunction(rt)) {
+          // Handle host functions installed through JSI. We can extract the host
+          // function and store it for retrieval later
+          auto hostfunc = object.asFunction(rt).getHostFunction(rt);
+          type = ValueType::DirectHostFunctionType;
+          valueContainer = std::make_unique<DirectHostFunctionWrapper>(std::make_shared<jsi::HostFunctionType>(hostfunc));
         } else {
             valueContainer = std::make_unique<HostFunctionWrapper>(
               std::make_shared<HostFunctionHandler>(std::make_shared<jsi::Function>(object.asFunction(rt)), rt));
@@ -140,6 +146,13 @@ void ShareableValue::adapt(jsi::Runtime &rt, const jsi::Value &value, ValueType 
       valueContainer = std::make_unique<RemoteObjectWrapper>(
          object.getHostObject<RemoteObject>(rt)
       );
+      adaptCache(rt, value);
+    } else if (object.isHostObject(rt)) {
+      // Handle host objects installed through JSI. We can store the underlying
+      // object for later retrieval.
+      type = ValueType::DirectHostObjectType;
+      std::shared_ptr<jsi::HostObject> hostObject = object.getHostObject(rt);
+      valueContainer = std::make_unique<DirectHostObjectWrapper>(std::shared_ptr<jsi::HostObject>(hostObject));
       adaptCache(rt, value);
     } else if (objectType == ValueType::RemoteObjectType) {
       type = ValueType::RemoteObjectType;
@@ -247,6 +260,16 @@ jsi::Value ShareableValue::toJSValue(jsi::Runtime &rt) {
     case ValueType::MutableValueType: {
       auto& mutableObject = ValueWrapper::asMutableValue(valueContainer);
       return createHost(rt, mutableObject);
+    }
+    case ValueType::DirectHostObjectType: {
+      auto directHostObjectWrapper = ValueWrapper::asDirectHostObjectWrapper(valueContainer);
+      auto hostObject = directHostObjectWrapper->value;
+      return createHost(rt, hostObject);
+    }
+    case ValueType::DirectHostFunctionType: {
+      auto directFunctionWrapper = ValueWrapper::asDirectHostFunctionWrapper(valueContainer);
+      jsi::HostFunctionType func = *directFunctionWrapper->value;
+      return jsi::Function::createFromHostFunction(rt, jsi::PropNameID::forAscii(rt, "directHostFunction"), 0, func);
     }
     case ValueType::HostFunctionType: {
       auto hostFunctionWrapper = ValueWrapper::asHostFunctionWrapper(valueContainer);
