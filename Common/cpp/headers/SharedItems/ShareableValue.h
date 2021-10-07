@@ -39,6 +39,7 @@ private:
 
 public:
   ValueType type = ValueType::UndefinedType;
+  static void markAsHostShareable(jsi::Runtime &rt, jsi::Object &object);
   static std::shared_ptr<ShareableValue> adapt(
     jsi::Runtime &rt,
     const jsi::Value &value,

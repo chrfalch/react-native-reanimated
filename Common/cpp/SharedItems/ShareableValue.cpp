@@ -13,6 +13,7 @@ const char *HIDDEN_HOST_OBJECT_PROP = "__reanimatedHostObjectRef";
 const char *ALREADY_CONVERTED= "__alreadyConverted";
 const char *CALL_ASYNC = "__callAsync";
 const char *PRIMAL_FUNCTION = "__primalFunction";
+const char *HOST_SHAREABLE = "__hostShareable";
 std::string CALLBACK_ERROR_SUFFIX = R"(
 
 Possible solutions are:
@@ -36,6 +37,10 @@ void freeze(jsi::Runtime &rt, jsi::Object &obj) {
   jsi::Object globalObject = rt.global().getPropertyAsObject(rt, "Object");
   jsi::Function freeze = globalObject.getPropertyAsFunction(rt, "freeze");
   freeze.call(rt, obj);
+}
+
+void ShareableValue::markAsHostShareable(jsi::Runtime &rt, jsi::Object &obj) {
+  reanimated::addHiddenProperty(rt, true, obj, HOST_SHAREABLE);
 }
 
 void ShareableValue::adaptCache(jsi::Runtime &rt, const jsi::Value &value) {
@@ -94,6 +99,9 @@ void ShareableValue::adapt(jsi::Runtime &rt, const jsi::Value &value, ValueType 
     valueContainer = std::make_unique<StringValueWrapper>(value.asString(rt).utf8(rt));
   } else if (value.isObject()) {
     auto object = value.asObject(rt);
+    // Get the marker for host object/function that are shareable
+    jsi::Value shareableHostElement = object.getProperty(rt, HOST_SHAREABLE);
+    
     if (object.isFunction(rt)) {
       if (object.getProperty(rt, "__worklet").isUndefined()) {
         // not a worklet, we treat this as a host function
@@ -106,7 +114,7 @@ void ShareableValue::adapt(jsi::Runtime &rt, const jsi::Value &value, ValueType 
             jsi::Object handlerAsObject = primalFunction.asObject(rt);
             std::shared_ptr<HostFunctionHandler> handler = handlerAsObject.getHostObject<HostFunctionHandler>(rt);
             valueContainer = std::make_unique<HostFunctionWrapper>(handler);
-        } else if (object.asFunction(rt).isHostFunction(rt)) {
+        } else if (object.asFunction(rt).isHostFunction(rt) && !shareableHostElement.isUndefined()) {
           // Handle host functions installed through JSI. We can extract the host
           // function and store it for retrieval later
           auto hostfunc = object.asFunction(rt).getHostFunction(rt);
@@ -147,7 +155,7 @@ void ShareableValue::adapt(jsi::Runtime &rt, const jsi::Value &value, ValueType 
          object.getHostObject<RemoteObject>(rt)
       );
       adaptCache(rt, value);
-    } else if (object.isHostObject(rt)) {
+    } else if (object.isHostObject(rt) && !shareableHostElement.isUndefined()) {
       // Handle host objects installed through JSI. We can store the underlying
       // object for later retrieval.
       type = ValueType::DirectHostObjectType;
