@@ -47,6 +47,8 @@ public:
     ValueType objectType = ValueType::UndefinedType
   );
   jsi::Value getValue(jsi::Runtime &rt);
+  
+  static const char *HOST_SHAREABLE;
 
 };
 

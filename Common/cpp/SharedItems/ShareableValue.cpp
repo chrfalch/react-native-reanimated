@@ -13,7 +13,8 @@ const char *HIDDEN_HOST_OBJECT_PROP = "__reanimatedHostObjectRef";
 const char *ALREADY_CONVERTED= "__alreadyConverted";
 const char *CALL_ASYNC = "__callAsync";
 const char *PRIMAL_FUNCTION = "__primalFunction";
-const char *HOST_SHAREABLE = "__hostShareable";
+const char *ShareableValue::HOST_SHAREABLE = "__hostShareable";
+
 std::string CALLBACK_ERROR_SUFFIX = R"(
 
 Possible solutions are:
